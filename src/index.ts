@@ -14,6 +14,10 @@ export interface Options {
   username?: string;
   password?: string;
 
+  measurement?: string;
+  appname?: string;
+  facility?: string;
+
   flushAfter?: number;
   flushInterval?: number;
 
@@ -25,12 +29,17 @@ export interface Options {
 export interface RequestLogPoint extends Influx.IPoint {
   measurement: string;
   tags: {
-    path: string;
+    appname: string;
+    facility: string;
     host: string;
-    verb: HTTPVerb;
-    status: string;
+    hostname: string;
+    severity: string;
   };
   fields: {
+    timestamp: number;
+    method: HTTPVerb;
+    path: string;
+    status: number;
     responseTime: number;
   };
 }
@@ -51,6 +60,9 @@ const defaultOptions: Partial<Options> = {
   protocol: 'https',
   flushAfter: 5,
   flushInterval: 10000,
+  measurement: 'syslog',
+  appname: 'express',
+  facility: 'local0',
 };
 
 function validateOptions(options: Options) {
@@ -129,19 +141,26 @@ export default function createInfluxDBLogger(options: Options) {
     req.start = Date.now();
 
     function makePoint() {
-      const responseTime = Date.now() - req.start;
+      const eventTime = Date.now();
+      const responseTime = eventTime - req.start;
 
       batch.points.push({
-        measurement: 'requests',
+        measurement: loggerOptions.measurement,
         tags: {
-          path: req.path,
-          host: req.hostname,
-          verb: req.method,
-          status: String(res.statusCode),
+          appname: loggerOptions.appname,
+          facility: loggerOptions.facility,
+          host: req.host,
+          hostname: req.hostname,
+          severity: 'info',
         },
         fields: {
+          timestamp: eventTime,
+          method: req.method,
+          path: req.path,
+          status: res.statusCode,
           responseTime,
         },
+        timestamp: eventTime,
       } as RequestLogPoint);
 
       batch.emit('addPoint');
