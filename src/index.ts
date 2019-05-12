@@ -1,6 +1,6 @@
-import * as events from 'events';
-import * as Influx from 'influx';
-import { Request, Response, NextFunction } from 'express'; // eslint-disable-line import/no-unresolved
+import events from 'events';
+import Influx from 'influx';
+import { Request, Response, NextFunction } from 'express'; // eslint-disable-line import/no-unresolved,import/no-extraneous-dependencies
 
 
 type HTTPVerb = 'GET' | 'PUT' | 'POST' | 'PATCH' | 'DELETE' | 'HEAD' | 'OPTIONS' | 'CONNECT' | 'TRACE';
@@ -15,6 +15,8 @@ export interface Options {
 
   flushAfter?: number;
   flushInterval?: number;
+
+  client?: Influx.InfluxDB;
 }
 
 export interface RequestLogPoint extends Influx.IPoint {
@@ -68,14 +70,19 @@ export default function createInfluxDBLogger(options: Options) {
   const loggerOptions = { ...defaultOptions, ...options };
   validateOptions(loggerOptions);
 
-  const client = new Influx.InfluxDB({
-    protocol: loggerOptions.protocol,
-    host: loggerOptions.host,
-    port: loggerOptions.port,
-    database: loggerOptions.database,
-    username: loggerOptions.username,
-    password: loggerOptions.password,
-  });
+  let client: Influx.InfluxDB;
+  if (loggerOptions.client) {
+    client = loggerOptions.client;
+  } else {
+    client = new Influx.InfluxDB({
+      protocol: loggerOptions.protocol,
+      host: loggerOptions.host,
+      port: loggerOptions.port,
+      database: loggerOptions.database,
+      username: loggerOptions.username,
+      password: loggerOptions.password,
+    });
+  }
   const batch = new LoggingEventEmitter();
 
   function setFlushInterval() {
