@@ -10,7 +10,7 @@ const createInfluxDBLogger = require('express-influxdb-logger');
 
 const app = express();
 app.use(createInfluxDBLogger({
-  host: 'my-influxdb-server.host,
+  host: 'my-influxdb-server.host',
   port: 8086,
   database: 'database_name',
   username: 'influxdb_user',
