@@ -1,6 +1,6 @@
 {
   "name": "express-influxdb-logger",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Express logging middleware for InfluxDB syslog",
   "main": "src/index.js",
   "repository": "git@github.com:peakwinter/express-influxdb-logger.git",
