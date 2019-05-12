@@ -1,3 +1,4 @@
+import * as https from 'https';
 import * as events from 'events';
 import * as Influx from 'influx';
 import { Request, Response, NextFunction } from 'express'; // eslint-disable-line import/no-unresolved,import/no-extraneous-dependencies
@@ -17,6 +18,8 @@ export interface Options {
   flushInterval?: number;
 
   client?: Influx.InfluxDB;
+
+  requestOptions?: https.RequestOptions;
 }
 
 export interface RequestLogPoint extends Influx.IPoint {
@@ -81,7 +84,8 @@ export default function createInfluxDBLogger(options: Options) {
       database: loggerOptions.database,
       username: loggerOptions.username,
       password: loggerOptions.password,
-    });
+      options: loggerOptions.requestOptions || {},
+    } as Influx.ISingleHostConfig);
   }
   const batch = new LoggingEventEmitter();
 
