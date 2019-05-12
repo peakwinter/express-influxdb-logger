@@ -1,5 +1,5 @@
-import events from 'events';
-import Influx from 'influx';
+import * as events from 'events';
+import * as Influx from 'influx';
 import { Request, Response, NextFunction } from 'express'; // eslint-disable-line import/no-unresolved,import/no-extraneous-dependencies
 
 
