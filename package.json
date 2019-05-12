@@ -1,6 +1,6 @@
 {
   "name": "express-influxdb-logger",
-  "version": "1.0.8",
+  "version": "1.1.0",
   "description": "Express logging middleware for InfluxDB syslog",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -8,7 +8,7 @@
   "author": "Jacob Cook <jacob@peakwinter.net>",
   "license": "MIT",
   "dependencies": {
-    "influx": "^5.0.0-alpha.4"
+    "influx": "^5.0.7"
   },
   "devDependencies": {
     "@types/express": "^4.16.1",
