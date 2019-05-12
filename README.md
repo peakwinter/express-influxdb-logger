@@ -1,6 +1,6 @@
 # express-influxdb-logger
 
-express-influxdb-logger is an [Express middleware](https://expressjs.com/en/guide/using-middleware.html) that can be used to log info on all HTTP requests to an InfluxDB instance.
+express-influxdb-logger is an [Express middleware](https://expressjs.com/en/guide/using-middleware.html) that can be used to log info on all HTTP requests to an InfluxDB instance in syslog format.
 
 ## Getting Started
 
@@ -32,6 +32,11 @@ The following options are accepted when creating an instance of the InfluxDB log
 * `password`: password to authenticate with if the server requires
 * `flushAfter`: send log lines to the database in batches of this number _(default: 5)_
 * `flushInterval`: send log lines to the database after this number of milliseconds max _(default: 10000)_
+* `measurement`: custom InfluxDB measurement name to use _(default: `syslog`)_
+* `appname`: application name to be provided in the syslog lines _(default: `express`)_
+* `facility`: syslog facility name to use _(default: `local0`)_
+* `client`: an instance of an `Influx.InfluxDB` connection to use rather than create a new one
+* `requestOptions`: an object of options passed directly to `https.request` when logging
 
 Note the `flushAfter` and `flushInterval` config values work together. By default, a batch will be sent to the server every time it has least 5 log entries in it, OR after 10 seconds of staleness at the longest.
 
