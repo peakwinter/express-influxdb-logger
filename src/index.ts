@@ -160,7 +160,6 @@ export default function createInfluxDBLogger(options: Options) {
           status: res.statusCode,
           responseTime,
         },
-        timestamp: eventTime,
       } as RequestLogPoint);
 
       batch.emit('addPoint');
