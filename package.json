@@ -1,8 +1,9 @@
 {
   "name": "express-influxdb-logger",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Express logging middleware for InfluxDB syslog",
-  "main": "src/index.js",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "repository": "git@github.com:peakwinter/express-influxdb-logger.git",
   "author": "Jacob Cook <jacob@peakwinter.net>",
   "license": "MIT",
