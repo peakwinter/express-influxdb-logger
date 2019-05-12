@@ -96,11 +96,13 @@ export default function createInfluxDBLogger(options: Options) {
   }
 
   function flushPoints(this: LoggingEventEmitter) {
-    client.writePoints(this.points).catch(error => {
-      console.log(error.message); // eslint-disable-line no-console
-    });
+    if (this.points) {
+      client.writePoints(this.points).catch(error => {
+        console.log(error.message); // eslint-disable-line no-console
+      });
 
-    this.points = [];
+      this.points = [];
+    }
   }
 
   function onAddPoint(this: LoggingEventEmitter) {

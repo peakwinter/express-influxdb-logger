@@ -32,6 +32,7 @@
   "scripts": {
     "lint": "eslint src/**/*",
     "build": "tsc",
-    "test": "ts-mocha test/test.ts --exit"
+    "test": "ts-mocha test/test.ts --exit",
+    "prepublish": "yarn build"
   }
 }
