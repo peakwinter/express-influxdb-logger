@@ -1,6 +1,6 @@
 {
   "name": "express-influxdb-logger",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Express logging middleware for InfluxDB syslog",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
